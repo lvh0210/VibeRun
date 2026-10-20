@@ -1,0 +1,29 @@
+{
+    "hotkey": "alt+space",
+    "max_results": 8,
+    "file_search_limit": 5,
+    "theme": {
+        "bg_color": "#1e1e1e",
+        "card_bg": "#252526",
+        "card_hover": "#2d2d30",
+        "card_selected": "#094771",
+        "text_primary": "#ffffff",
+        "text_secondary": "#cccccc",
+        "accent_color": "#007acc",
+        "font_family": "Segoe UI",
+        "font_size_entry": 14,
+        "font_size_title": 11,
+        "font_size_subtitle": 9
+    },
+    "features": {
+        "calculator": true,
+        "apps": true,
+        "system_tools": true,
+        "files": true
+    },
+    "window": {
+        "width": 720,
+        "height_per_item": 54,
+        "top_offset_ratio": 0.22
+    }
+}
