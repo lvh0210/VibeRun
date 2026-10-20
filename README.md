@@ -31,7 +31,7 @@
 | **Tải CPU khi idle** | ~0.5% – 2.0% | **0.0%** (Win32 message loop tĩnh) |
 | **Thời gian phản hồi tìm file**| ~50ms – 250ms | **1ms – 5ms** (Truy vấn trực tiếp Windows Search OLE DB) |
 | **Công cụ dư thừa đi kèm** | Kèm >20 tiện ích (Awake, Hosts, OCR, ColorPicker...) | **100% tinh gọn, chỉ làm launcher** |
-| **Tự động đưa chuột vào ô nhập**| ❌ Không có |  **Tự động đưa con trỏ chuột vào giữa ô nhập** |
+| **Tự động focus con trỏ vào ô nhập**| ❌ Phải click thủ công |  **Tự động đưa con trỏ văn bản (caret) vào ô nhập sẵn sàng gõ (giữ nguyên vị trí con chuột)** |
 | **Click ra ngoài tự đóng** | ⚠️ Đôi khi bị kẹt focus |  **Nhấp bất kỳ đâu ngoài cửa sổ là đóng tức thì** |
 
 ---
@@ -39,7 +39,7 @@
 ## ✨ 2. Các tính năng nổi bật (Key Features)
 
 - ⌨️ **Phím tắt toàn cục (`Alt + Space`):** Bật/tắt thanh tìm kiếm nổi ngay tức thì từ bất kỳ đâu.
-- 🎯 **Tự động đưa chuột & Focus:** Ngay khi mở, con trỏ chuột sẽ được đưa thẳng vào thanh tìm kiếm và tự động bôi đen văn bản để gõ tiếp mà không cần click thêm.
+- 🎯 **Tự động Focus con trỏ nhập liệu:** Ngay khi mở (`Alt + Space`), con trỏ văn bản (caret) sẽ lập tức nằm trong thanh tìm kiếm để bạn gõ ngay mà không phải click chuột, đồng thời vị trí con chuột vật lý trên màn hình hoàn toàn được giữ nguyên.
 - 🖱️ **Click-outside Auto Close:** Nhấp chuột ra bất kỳ vị trí nào bên ngoài cửa sổ (Desktop, thanh tác vụ, cửa sổ khác) sẽ tự động ẩn ngay lập tức.
 - 🚀 **Tìm kiếm ứng dụng toàn diện (`APP`):**
   - Tự động nhận diện cả ứng dụng Win32 truyền thống (`.exe`, `.lnk` Start Menu) lẫn ứng dụng Store/UWP hiện đại (Zalo, ChatGPT, Telegram, Steam, NVIDIA App, Settings...).

@@ -167,7 +167,7 @@ class LauncherWindow:
             pass
 
     def show(self):
-        """Display launcher window, focus entry, move mouse into entry, and monitor outside clicks."""
+        """Display launcher window, focus text caret into entry, and monitor outside clicks (without moving mouse pointer)."""
         self.is_visible = True
         self._shown_timestamp = time.time()
         self.root.deiconify()
@@ -178,30 +178,19 @@ class LauncherWindow:
         # 1. Bring window to absolute foreground
         try:
             hwnd = self.root.winfo_id()
+            ctypes.windll.user32.BringWindowToTop(hwnd)
             ctypes.windll.user32.SetForegroundWindow(hwnd)
             ctypes.windll.user32.SetActiveWindow(hwnd)
         except Exception:
             pass
 
-        # 2. Force focus on input entry and select existing text
+        # 2. Focus text cursor (caret) inside input entry ready for immediate typing
         self.entry.focus_force()
+        self.entry.icursor(tk.END)
         self.entry.select_range(0, tk.END)
 
-        # 3. Automatically position mouse cursor into the search input box
-        self.root.after(20, self._move_mouse_into_entry)
-
-        # 4. Start monitoring clicks outside the VibeRun window
+        # 3. Start monitoring clicks outside the VibeRun window
         self._start_outside_click_monitor()
-
-    def _move_mouse_into_entry(self):
-        """Position mouse cursor directly over the center of the search input field."""
-        try:
-            self.root.update_idletasks()
-            rx = self.entry.winfo_rootx() + 40
-            ry = self.entry.winfo_rooty() + self.entry.winfo_height() // 2
-            ctypes.windll.user32.SetCursorPos(rx, ry)
-        except Exception as e:
-            print(f"[LauncherWindow] Error positioning cursor: {e}")
 
     def _start_outside_click_monitor(self):
         """Start polling for mouse clicks outside the window bounds."""
