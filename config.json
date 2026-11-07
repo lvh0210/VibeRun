@@ -19,7 +19,15 @@
         "calculator": true,
         "apps": true,
         "system_tools": true,
-        "files": true
+        "files": true,
+        "content_search": true
+    },
+    "content_search": {
+        "workspace_paths": [
+            "D:\\VibeCode\\VibeRun"
+        ],
+        "max_file_size_kb": 1024,
+        "max_results": 6
     },
     "window": {
         "width": 720,

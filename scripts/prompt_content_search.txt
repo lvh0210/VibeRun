@@ -1,0 +1,23 @@
+You are an expert Python systems developer for Windows.
+Design a high-performance, ultra-lightweight in-file content search module for Windows called `content_search.py` for the VibeRun launcher (a PowerToys Run alternative).
+Inspired by ARahim3/DigUp, users need to search INSIDE the contents of files (documents, code, text, pdfs, etc.) and see excerpt snippets of the matching lines.
+
+Key requirements:
+1. Zero heavy background footprint: must NOT consume >5MB RAM, no external bloated servers.
+2. Two search strategies:
+   a. Windows Search OLE DB (ADODB):
+      Query `SystemIndex` with `SCOPE='file:' AND FREETEXT(System.Search.Contents, '...')` and select `System.ItemName`, `System.ItemPathDisplay`, `System.Search.AutoSummary`.
+      Clean up the `AutoSummary` into a clean snippet (remove newlines, trim to ~90 chars, highlight or focus on matched keywords).
+   b. Local directory fast scanner / SQLite FTS5 indexer for code & docs in custom paths (e.g., D:\VibeCode or user-defined folders in config.json):
+      Extract text from .txt, .py, .js, .ts, .json, .md, .html, .css, .cpp, .cs, .java, .sql, .yaml, .ini, .log.
+      Search matching lines and generate concise contextual snippet (e.g., '...line 42: def authenticate(user)...').
+3. Categorize results with badges:
+   - 'CODE' for code files
+   - 'DOC' for documents (.pdf, .docx, .txt, .md, .csv)
+   - 'CONTENT' for general in-file matches
+4. Methods:
+   - `search_content(query, limit=5, file_type_filter=None)`
+   - `clean_snippet(text, query, max_len=90)`
+   - `execute(item)` (open file or reveal in explorer)
+
+Return ONLY valid, clean, production-ready Python code for `content_search.py` enclosed in a ```python ... ``` block.

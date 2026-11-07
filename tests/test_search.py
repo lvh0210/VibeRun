@@ -1,12 +1,18 @@
 import unittest
+import os
+import sys
+
+# Ensure project path is accessible
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from src.core.search_engine import SearchEngine
-from src.config import DEFAULT_CONFIG
+from src.config import Config
 
 class TestSearchEngine(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.engine = SearchEngine(DEFAULT_CONFIG)
-        # Force load apps synchronously for testing
+        cfg = Config().data
+        cls.engine = SearchEngine(cfg)
         if cls.engine.app_indexer:
             cls.engine.app_indexer.load_apps()
 
@@ -32,6 +38,27 @@ class TestSearchEngine(unittest.TestCase):
     def test_app_query(self):
         results = self.engine.search("python")
         self.assertTrue(len(results) > 0)
+
+    def test_content_search_prefix_in(self):
+        results = self.engine.search("in: EmptyWorkingSet")
+        self.assertTrue(len(results) > 0)
+        self.assertTrue(any(r.get("badge") in ("CODE", "DOC", "CONTENT") for r in results))
+        # Ensure snippet exists
+        self.assertTrue(any("EmptyWorkingSet" in r.get("subtitle", "") for r in results))
+
+    def test_content_search_prefix_find(self):
+        results = self.engine.search("find: PowerToys")
+        self.assertTrue(len(results) > 0)
+
+    def test_category_code_filter(self):
+        results = self.engine.search("@code def ")
+        self.assertTrue(len(results) > 0)
+        self.assertTrue(all(r.get("badge") == "CODE" for r in results))
+
+    def test_category_app_filter(self):
+        results = self.engine.search("@app python")
+        self.assertTrue(len(results) > 0)
+        self.assertTrue(all(r.get("badge") == "APP" for r in results))
 
 if __name__ == "__main__":
     unittest.main()

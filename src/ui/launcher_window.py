@@ -25,7 +25,10 @@ BADGE_COLORS = {
     "SYSTEM": ("#d83b01", "#ffffff"),   # Orange/Red
     "FILE": ("#5c2d91", "#ffffff"),     # Indigo
     "FOLDER": ("#ca5010", "#ffffff"),   # Amber
-    "CALC": ("#008272", "#ffffff")      # Teal
+    "CALC": ("#008272", "#ffffff"),     # Teal
+    "CODE": ("#0e7090", "#ffffff"),     # Cyan (Code files)
+    "DOC": ("#b45309", "#ffffff"),      # Amber (Documents)
+    "CONTENT": ("#7c3aed", "#ffffff")   # Purple (In-file matches)
 }
 
 class LauncherWindow:

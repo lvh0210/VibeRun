@@ -22,7 +22,15 @@ DEFAULT_CONFIG = {
         "calculator": True,
         "apps": True,
         "system_tools": True,
-        "files": True
+        "files": True,
+        "content_search": True
+    },
+    "content_search": {
+        "workspace_paths": [
+            "D:\\VibeCode\\VibeRun"
+        ],
+        "max_file_size_kb": 1024,
+        "max_results": 6
     },
     "window": {
         "width": 720,
