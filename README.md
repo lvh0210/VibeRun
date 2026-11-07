@@ -79,13 +79,17 @@
 | `@set từ khóa` | Lọc chỉ tìm Cài đặt Windows & Công cụ | `@set wifi`, `@set am thanh` |
 | `@code từ khóa` | Lọc chỉ tìm kiếm trong file Mã nguồn | `@code import sqlite3` |
 | `@doc từ khóa` | Lọc chỉ tìm kiếm trong Tài liệu văn bản | `@doc bao cao`, `@doc readme` |
+| `@folder từ khóa` | **[MỚI] Lọc chỉ tìm kiếm Thư mục (Folders)** | `@folder VibeRun`, `folder: Steam` |
+| `@file từ khóa` | **[MỚI] Lọc chỉ tìm kiếm Tệp tin (Files)** | `@file main.py`, `file: config.json` |
+| `Đường dẫn thư mục` | **[MỚI] Duyệt nhanh cây thư mục trực tiếp** | `D:\VibeCode\`, `C:\`, `~\Desktop` |
 
 ### Phím tắt điều khiển:
 | Thao tác | Phím tắt |
 | :--- | :--- |
 | **Bật / Tắt VibeRun** | `Alt + Space` |
 | **Điều hướng kết quả** | `Mũi tên Xuống` / `Mũi tên Lên` |
-| **Chọn & Khởi chạy** | `Enter` (hoặc Click chuột trực tiếp) |
+| **Mở File / Folder / Khởi chạy** | `Enter` (hoặc Click chuột trái) |
+| **Mở thư mục chứa File (Reveal in Explorer)** | `Shift + Enter` hoặc `Ctrl + Enter` (hoặc Click chuột phải) |
 | **Ẩn cửa sổ** | `Esc` (hoặc Click ra ngoài cửa sổ) |
 
 ---

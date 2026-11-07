@@ -137,6 +137,8 @@ class LauncherWindow:
         self.entry.bind("<Down>", self._on_key_down)
         self.entry.bind("<Up>", self._on_key_up)
         self.entry.bind("<Return>", self._on_key_enter)
+        self.entry.bind("<Shift-Return>", self._on_key_shift_enter)
+        self.entry.bind("<Control-Return>", self._on_key_shift_enter)
         self.entry.bind("<Escape>", lambda e: self.hide())
         self.root.bind("<FocusOut>", self._on_focus_out)
 
@@ -377,6 +379,11 @@ class LauncherWindow:
         title.bind("<Button-1>", lambda e, idx=index: self._on_item_clicked(idx))
         subtitle.bind("<Button-1>", lambda e, idx=index: self._on_item_clicked(idx))
 
+        # Right click to reveal containing folder
+        row.bind("<Button-3>", lambda e, idx=index: self._on_item_right_clicked(idx))
+        title.bind("<Button-3>", lambda e, idx=index: self._on_item_right_clicked(idx))
+        subtitle.bind("<Button-3>", lambda e, idx=index: self._on_item_right_clicked(idx))
+
         row.bind("<Enter>", lambda e, idx=index: self._set_selected_index(idx))
 
     def _set_selected_index(self, index: int):
@@ -419,8 +426,21 @@ class LauncherWindow:
             self.search_engine.execute(selected)
         return "break"
 
+    def _on_key_shift_enter(self, event):
+        if self.current_results and 0 <= self.selected_index < len(self.current_results):
+            selected = self.current_results[self.selected_index]
+            self.hide()
+            self.search_engine.reveal_in_explorer(selected)
+        return "break"
+
     def _on_item_clicked(self, index: int):
         if 0 <= index < len(self.current_results):
             selected = self.current_results[index]
             self.hide()
             self.search_engine.execute(selected)
+
+    def _on_item_right_clicked(self, index: int):
+        if 0 <= index < len(self.current_results):
+            selected = self.current_results[index]
+            self.hide()
+            self.search_engine.reveal_in_explorer(selected)

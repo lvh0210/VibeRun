@@ -19,12 +19,12 @@ class SearchEngine:
         self.enable_content = features.get("content_search", True)
 
         self.max_results = self.config.get("max_results", 8)
-        self.file_limit = self.config.get("file_search_limit", 4)
+        self.file_limit = self.config.get("file_search_limit", 5)
 
         # Initialize engines
         self.app_indexer = AppIndexer() if self.enable_apps else None
         self.sys_tools = SystemToolsIndexer() if self.enable_sys else None
-        self.file_engine = FileSearchEngine(limit=self.file_limit) if self.enable_files else None
+        self.file_engine = FileSearchEngine(limit=self.file_limit, config=self.config) if self.enable_files else None
         self.content_engine = ContentSearchEngine(self.config) if self.enable_content else None
 
     def initialize_indexes_async(self, on_complete=None):
@@ -48,33 +48,45 @@ class SearchEngine:
                 return self.content_engine.search_content(clean_query, limit=self.max_results)
             return []
 
-        # 2. Filter: Only Apps (@app, >app)
+        # 2. Filter: Only Folders / Thư mục (@folder, >folder, @dir, folder:, dir:)
+        if prefix == "folder":
+            if self.file_engine and clean_query:
+                return self.file_engine.search(clean_query, limit=self.max_results, filter_type="folder")
+            return []
+
+        # 3. Filter: Only Files / Tệp tin (@file, >file, file:)
+        if prefix == "file":
+            if self.file_engine and clean_query:
+                return self.file_engine.search(clean_query, limit=self.max_results, filter_type="file")
+            return []
+
+        # 4. Filter: Only Apps (@app, >app)
         if prefix == "app":
             if self.app_indexer and clean_query:
                 return self.app_indexer.search(clean_query)[:self.max_results]
             return []
 
-        # 3. Filter: Only Settings & System (@set, >set)
+        # 5. Filter: Only Settings & System (@set, >set)
         if prefix == "setting":
             if self.sys_tools and clean_query:
                 return self.sys_tools.search(clean_query)[:self.max_results]
             return []
 
-        # 4. Filter: Only Code Files & Content (@code, >code)
+        # 6. Filter: Only Code Files & Content (@code, >code)
         if prefix == "code":
             results = []
             if self.content_engine and clean_query:
                 results = self.content_engine.search_content(clean_query, limit=self.max_results, category_filter="CODE")
             return results
 
-        # 5. Filter: Only Documents (@doc, >doc)
+        # 7. Filter: Only Documents (@doc, >doc)
         if prefix == "doc":
             results = []
             if self.content_engine and clean_query:
                 results = self.content_engine.search_content(clean_query, limit=self.max_results, category_filter="DOC")
             return results
 
-        # 6. Default Multi-Source Blended Search
+        # 8. Default Multi-Source Blended Search
         return self._search_blended(clean_query)
 
     def _parse_prefix(self, query: str):
@@ -90,6 +102,20 @@ class SearchEngine:
             return "content", query[1:].strip()
         if q_lower.startswith("@find ") or q_lower.startswith(">find "):
             return "content", query[6:].strip()
+
+        # Folder search prefix
+        if q_lower.startswith("folder:") or q_lower.startswith("dir:"):
+            idx = query.find(":")
+            return "folder", query[idx + 1:].strip()
+        if q_lower.startswith("@folder ") or q_lower.startswith(">folder ") or q_lower.startswith("@dir ") or q_lower.startswith(">dir "):
+            idx = query.find(" ")
+            return "folder", query[idx + 1:].strip()
+
+        # File search prefix
+        if q_lower.startswith("file:"):
+            return "file", query[5:].strip()
+        if q_lower.startswith("@file ") or q_lower.startswith(">file "):
+            return "file", query[6:].strip()
 
         # Apps only
         if q_lower.startswith("@app ") or q_lower.startswith(">app "):
@@ -133,14 +159,13 @@ class SearchEngine:
         # Sort non-file results first by score
         all_results.sort(key=lambda x: x.get("score", 0), reverse=True)
 
-        # 4. Files by name (Windows Search)
+        # 4. Files & Folders by name (Windows Search + Common Directories)
         if self.enable_files and self.file_engine and len(query) >= 2:
-            remaining_slots = max(2, self.max_results - len(all_results))
+            remaining_slots = max(3, self.max_results - len(all_results))
             file_results = self.file_engine.search(query, limit=remaining_slots)
             all_results.extend(file_results)
 
         # 5. Hybrid Fallback: In-File Content Search (DigUp style)
-        # If we have few matches (< 3) and user typed at least 3 characters, search inside file contents
         if self.enable_content and self.content_engine and len(query) >= 3 and len(all_results) < 4:
             needed = max(2, self.max_results - len(all_results))
             content_results = self.content_engine.search_content(query, limit=needed)
@@ -190,3 +215,9 @@ class SearchEngine:
         else:
             if target and os.path.exists(target):
                 os.startfile(target)
+
+    def reveal_in_explorer(self, item: dict):
+        """Reveal target item in File Explorer."""
+        if not item:
+            return
+        FileSearchEngine.reveal_in_explorer(item)

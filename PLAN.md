@@ -11,6 +11,12 @@
   - [x] 2.3: Xây dựng cơ chế kép Windows Search AutoSummary & Workspace Scanner
   - [x] 2.4: Bổ sung cú pháp tìm kiếm nội dung (`in:`, `find:`, `?`) kèm trích đoạn khớp (Snippet preview)
   - [x] 2.5: Phân loại danh mục đa phương tiện & bộ lọc thông minh (`@code`, `@doc`, `@app`)
-- [-] **Chặng 3: Kiểm thử, đo đạc RAM & Phát hành v2.0**
-  - [x] 3.1: Viết Unit tests (17 tests passed) & Benchmark RAM (23.5 MB)
-  - [-] 3.2: Khởi động lại tiến trình chạy ngầm và đẩy commit lên GitHub
+- [x] **Chặng 3: Kiểm thử, đo đạc RAM & Phát hành v2.0**
+  - [x] 3.1: Viết Unit tests & Benchmark RAM (23.5 MB)
+  - [x] 3.2: Đẩy commit v2.0 lên GitHub
+- [x] **Chặng 4: Bổ sung tìm kiếm chuyên biệt Thư mục & Tệp tin (v2.1)**
+  - [x] 4.1: Thêm bộ lọc `@folder`, `@dir`, `folder:`, `@file`, `file:`
+  - [x] 4.2: Tối ưu duyệt cây thư mục trực tiếp (`D:\`, `C:\`, `~`)
+  - [x] 4.3: Hỗ trợ Shift+Enter / Ctrl+Enter / Chuột phải mở vị trí trong File Explorer (Reveal)
+  - [x] 4.4: Bổ sung 20 Unit tests & Benchmark RAM ~23.7 MB
+  - [x] 4.5: Khởi động lại VibeRun tiến trình nền & đẩy lên GitHub

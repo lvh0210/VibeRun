@@ -60,5 +60,20 @@ class TestSearchEngine(unittest.TestCase):
         self.assertTrue(len(results) > 0)
         self.assertTrue(all(r.get("badge") == "APP" for r in results))
 
+    def test_folder_filter_prefix(self):
+        results = self.engine.search("@folder VibeRun")
+        self.assertTrue(len(results) > 0)
+        self.assertTrue(any(r.get("badge") == "FOLDER" for r in results))
+
+    def test_file_filter_prefix(self):
+        results = self.engine.search("@file main.py")
+        self.assertTrue(len(results) > 0)
+        self.assertTrue(all(r.get("badge") == "FILE" for r in results))
+
+    def test_direct_path_navigation(self):
+        results = self.engine.search(r"D:\VibeCode\VibeRun")
+        self.assertTrue(len(results) > 0)
+        self.assertTrue(any("main.py" in r.get("title", "") for r in results))
+
 if __name__ == "__main__":
     unittest.main()
